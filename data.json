@@ -1,0 +1,147 @@
+[
+    {
+        "title": "Vulnerabilidade crítica em GitLab:",
+        "content": " Uma falha grave,\n\nCVE-2024-5655\n\n, afetando GitLab CE/EE permite a execução de pipelines como qualquer usuário. Com pontuação de gravidade de 9.6, versões entre 15.8 e 17.1.0 estão em risco. A correção, junto a outras atualizações de segurança, está disponível nas versões 17.1.1, 17.0.3 e 16.11.5.",
+        "more": "/post/falha-critica-no-gitlab-3079271",
+        "cves": [
+            {
+                "title": "CVE-2024-5655",
+                "description": "Foi identificado um problema no GitLab CE/EE que afeta todas as versões a partir da 15.8 antes da 16.11.5, a partir da 17.0 antes da 17.0.3 e a partir da 17.1 antes da 17.1.1. Esse problema permite que um invasor acione um pipeline como outro usuário em certas circunstâncias.",
+                "cvss_version": "v3.1",
+                "cvss_score": "9.6",
+                "infos": {
+                    "Vetor": " INTERNET",
+                    "Complexidade": " BAIXA",
+                    "Impacto na integridade": " ALTO",
+                    "Impacto na disponibilidade": " NENHUM",
+                    "Impacto na confidencialidade": " ALTO"
+                }
+            }
+        ]
+    },
+    {
+        "title": "BlackSuit ameaça vazar dados:",
+        "content": " O grupo de ransomware BlackSuit reivindica ataque à KADOKAWA, afetando operações e ameaçando o vazamento de dados sensíveis caso não recebam resgate. Com origens no desmantelado Conti, este ataque destaca a crescente ameaça a organizações globais.",
+        "more": "/post/blacksuit-ameaca-vazar-dados-3207005"
+    },
+    {
+        "title": "Malware em Massa:",
+        "content": " Em uma polêmica estratégia para mitigar sobrecarga na rede, a KT Corporation, gigante das telecomunicações na Coreia do Sul, é acusada de injetar malware em mais de 600 mil dispositivos, visando controlar o uso excessivo de serviços de compartilhamento P2P. A vírus, disfarçado em software de torrent, levantou sérias questões sobre ética e privacidade após afetar negativamente a operação da plataforma Webhard e causar danos aos usuários. Investigação aponta colaboradores da empresa como responsáveis pelo ato.",
+        "more": "/post/provedor-de-internet-dissemina-malware-9935113"
+    },
+    {
+        "title": "Ataque de Side-Channel SnailLoad revela atividades Web:",
+        "content": " Pesquisadores da Universidade de Tecnologia de Graz identificaram o SnailLoad, um ataque de side-channel que explora latências de rede para deduzir atividades na web, como sites visitados e vídeos assistidos, sem necessidade de JavaScript ou interação do usuário. Utiliza medições de latência e um CNN para atingir alta precisão na identificação. Corrige-se uma falha relacionada no firmware de roteadores.",
+        "more": "/post/ataque-snailload-espiona-usuarios-5139561"
+    },
+    {
+        "title": "EUA acusam hacker russo de ataques cibernéticos à Ucrânia:",
+        "content": " Amin Timovich Stigal foi indiciado por participar de operações destrutivas contra redes governamentais ucranianas, usando o pseudo-ransomware WhisperGate. Além de intentar desestabilizar com vazamentos de dados, estendeu ataques a aliados da Ucrânia. Em foco, recompensa de $10 milhões por informações que levem à sua captura.",
+        "more": "/post/eua-indiciam-hacker-russo-5115245"
+    },
+    {
+        "title": "Unfurling Hemlock dissemina Malwares com método \"Cluster Bomb\":",
+        "content": " Grupo cibercriminoso Unfurling Hemlock invade sistemas com até dez malwares simultâneos, realizando ataques massivos. Pesquisadores da Outpost24 identificam táticas desde fevereiro de 2023, afetando sobretudo os EUA. Recomenda-se cautela e uso de anti-vírus atualizados para prevenção.",
+        "more": "/post/nova-ameaca-hemlock-dissemina-malwares-4155707"
+    },
+    {
+        "title": "TeamViewer sob ataque cibernético apontado a APT russa:",
+        "content": " A companhia de acesso remoto TeamViewer anunciou um comprometimento em seu ambiente corporativo, potencialmente a obra do grupo APT29. Apesar da brecha, não há evidências de que dados de clientes ou o ambiente do produto tenham sido afetados. Investigadores e especialistas em cibersegurança já foram mobilizados para conter e analisar o ataque.",
+        "more": "/post/teamviewer-sofre-ataque-7351085"
+    },
+    {
+        "title": "Segurança em Código Aberto questionada:",
+        "content": " Estudo revela que mais da metade dos projetos analisados incorporam linguagens suscetíveis a falhas de memória. CISA destaca a predominância de códigos em linguagens inseguras, como C e C++, instando desenvolvedores a adotar alternativas mais seguras e práticas rigorosas de testes.",
+        "more": "/post/seguranca-em-codigo-aberto-questionada-5948302"
+    },
+    {
+        "title": "Malware Snowblind Explora Segurança Linux para Ataques Invisíveis:",
+        "content": " Pesquisadores detectaram o Snowblind, um software malicioso que explora a função seccomp do Linux no Android, para burlar proteções e capturar dados sensíveis sem ser percebido. Utilizando uma técnica apurada, manipula chamadas de sistema para evitar detecção, afetando apps de dados sensíveis.",
+        "more": "/post/software-malicioso-explora-linux-6277732"
+    },
+    {
+        "title": "Cloudflare alerta sobre malware em Polyfill.io:",
+        "content": " A empresa desautoriza o uso de sua marca pelo Polyfill.io, após ele injetar malware em mais de 100.000 sites. A empresa responde substituindo automaticamente links para um espelho CDN seguro, visando proteger os usuários contra o ataque de cadeia de suprimentos.",
+        "more": "/post/cloudflare-alerta-sobre-malware-4378947"
+    },
+    {
+        "title": "Falha de segurança grave em Fortra FileCatalyst:",
+        "content": " Correção urgente é necessária para bloquear injeção de SQL que impacta versões até a 5.1.6 Build 135. A vulnerabilidade permite que atacantes manipulem a base de dados, comprometendo a segurança. Recomenda-se atualizar para a versão 5.1.6 build 139 ou desativar servlets específicos como medida paliativa.",
+        "more": "/post/falha-critica-de-sqli-2799815"
+    },
+    {
+        "title": "Falha grave em biblioteca permite execução de código remoto:",
+        "content": " Pesquisadores de segurança da JFrog revelaram uma vulnerabilidade de alto risco,\n\nCVE-2024-5565\n\n, na Vanna.AI, permitindo execuções de código através de injecções de prompt. Esta falha, explorada via função \"ask\", põe em risco a segurança de dados ao traduzir solicitações em consultas SQL. Recomenda-se a utilização de ambientes sandboxed para mitigar os riscos.",
+        "more": "/post/falha-de-injecao-de-comando-expoe-bancos-de-dados-3737384",
+        "cves": [
+            {
+                "title": "CVE-2024-5565",
+                "description": "A biblioteca Vanna utiliza uma função de prompt para apresentar ao usuário resultados visualizados. É possível alterar o prompt usando injeção de prompt e executar código Python arbitrário em vez do código de visualização pretendido. Especificamente - permitir entrada externa para o método 'ask' da biblioteca com 'visualize' definido como True (comportamento padrão) leva à execução remota de código.",
+                "cvss_version": "v3.1",
+                "cvss_score": "8.1",
+                "infos": {
+                    "Vetor": " INTERNET",
+                    "Complexidade": " ALTA",
+                    "Impacto na integridade": " ALTO",
+                    "Impacto na disponibilidade": " ALTO",
+                    "Impacto na confidencialidade": " ALTO"
+                }
+            }
+        ]
+    },
+    {
+        "title": "LockBit mira errado:",
+        "content": " Em tentativa frustrada de retomar relevância, o grupo LockBit afirmou ter atacado o Federal Reserve, mas na realidade, o alvo foi o Evolve Bank & Trust. A instituição já confirmou o vazamento de dados e trabalha em conjunto com autoridades para conter o impacto do incidente.",
+        "more": "/post/lockbit-erra-o-alvo-1879472"
+    },
+    {
+        "title": "Falha Crítica do MOVEit Transfer:",
+        "content": " Menos de 24 horas após a divulgação de uma falha grave de bypass de autenticação no MOVEit Transfer, tentativas de exploração foram avistadas. Essa vulnerabilidade, identificada como\n\nCVE-2024-5806\n\n, permite a atacantes acessar e manipular dados sensíveis. A Progress já disponibilizou correções e recomenda atualizações imediatas.",
+        "more": "/post/hackers-atacam-moveit-transfer-7539800",
+        "cves": [
+            {
+                "title": "CVE-2024-5806",
+                "description": "A vulnerabilidade de Autenticação Incorreta no Progress MOVEit Transfer (módulo SFTP) pode levar a uma falha de autenticação. Esse problema afeta o MOVEit Transfer: das versões 2023.0.0 até 2023.0.11, das versões 2023.1.0 até 2023.1.6, das versões 2024.0.0 até 2024.0.2.",
+                "cvss_version": "v3.1",
+                "cvss_score": "9.1",
+                "infos": {
+                    "Vetor": " INTERNET",
+                    "Complexidade": " BAIXA",
+                    "Impacto na integridade": " ALTO",
+                    "Impacto na disponibilidade": " NENHUM",
+                    "Impacto na confidencialidade": " ALTO"
+                }
+            }
+        ]
+    },
+    {
+        "title": "Ransomware oculta cyberespionagem:",
+        "content": " Grupos suspeitos da China usam CatB em ataques globais. Analistas revelam táticas de ChamelGang, infiltrando-se em infraestruturas críticas e governamentais, como no Brasil e na Índia, sob o disfarce de criptografia financeira para camuflar roubo de dados e complicar a atribuição dos ataques.",
+        "more": "/post/ransomware-oculta-cyberespionagem-1540620"
+    },
+    {
+        "title": "Atualização nos AirPods corrige vulnerabilidade:",
+        "content": " A Apple lançou atualizações de firmware para os AirPods e Beats, corrigindo uma falha de autenticação que permitiria a atores mal-intencionados acessar os fones via Bluetooth. Descoberta por Jonas Dreßler, a vulnerabilidade foi sanada, melhorando a gestão de estados dos dispositivos.",
+        "more": "/post/apple-corrige-falha-critica-7503318"
+    },
+    {
+        "title": "Nova ameaça digital mira e-commerces:",
+        "content": " Especialistas da Sucuri identificaram uma manobra maliciosa em plataformas como WordPress, visando o roubo de informações de cartão de crédito via WooCommerce. O maligno Caesar Cipher oculta seu código sob aparência de Google Analytics, infiltrando-se mediante brechas prévias. Alerta-se para a urgência de atualizações e vigilância contra invasores.",
+        "more": "/post/nova-ameaca-digital-mira-e-commerces-1120618"
+    },
+    {
+        "title": "Google bloqueia anúncios devido a ataque:",
+        "content": " Após a aquisição da Polyfill.io por uma companhia chinesa, mais de 110.000 sites foram afetados por um ataque à cadeia de suprimentos, forçando a Google a inibir anúncios de e-commerces que usam o serviço. Agressores alteraram o \"polyfill.js\" para redirecionar usuários a sites maliciosos. Soluções alternativas são propostas por Cloudflare e Fastly, enquanto especialistas em segurança alertam sobre os riscos desse controle nas mãos de terceiros.",
+        "more": "/post/google-bloqueia-anuncios-devido-a-ataque-5180064"
+    },
+    {
+        "title": "WordPress comprometido por malware:",
+        "content": " A equipe de Inteligência de Ameaças da Wordfence detectou que cibercriminosos alteraram o código fonte de cinco plugins do WordPress, públicos em WordPress.org, incluindo scripts maliciosos. Esses ataquem visam criar contas administrativas nos sites afetados. Mais de 35.000 sites podem estar em risco. Foram divulgadas correções para a maioria desses plugins.",
+        "more": "/post/plugins-do-wordpress-comprometidos-1223465"
+    },
+    {
+        "title": "Alerta FBI:",
+        "content": " Aumento de fraudes em recuperação de criptomoedas: Cibercriminosos simulam serviços jurídicos para ludibriar vítimas de golpes de investimento, capturando mais recursos e dados pessoais. Segundo o FBI, esses estelionatários afirmam falsas parcerias com órgãos governamentais, extraindo antecipadamente taxas e informações sensíveis. Recomenda-se cautela e pesquisa criteriosa antes de proceder com qualquer empresa que prometa recuperar fundos cripto perdidos.",
+        "more": "/post/fbi-alerta-sobre-golpes-com-criptomoedas-1784938"
+    }
+]
