@@ -28,19 +28,19 @@ class Scrapper:
         self.content = BeautifulSoup(self.session.get(self.url, headers=self.headers).content, "html.parser") 
         self.page = 1
         
-        def __cve_catcher(self, cve_html):
-            fixed_cve = html_decode(str(cve_html.get('data-html')))
-            cve = BeautifulSoup(fixed_cve, "html.parser")
-            cve_entity = {
-                'title': cve.find('h4').text,
-                'description': cve.find('div', 'sixteen wide summary computer only cve-description column').find('span').text,
-                'cvss_version': cve_html.get('data-cvss-version'),
-                'cvss_score': cve_html.get('data-cvss'),
-                'infos' : self.__format_infos(cve.find('span', 'ui small text').text)
+    def __cve_catcher(self, cve_html):
+        fixed_cve = html_decode(str(cve_html.get('data-html')))
+        cve = BeautifulSoup(fixed_cve, "html.parser")
+        cve_entity = {
+            'title': cve.find('h4').text,
+            'description': cve.find('div', 'sixteen wide summary computer only cve-description column').find('span').text,
+            'cvss_version': cve_html.get('data-cvss-version'),
+            'cvss_score': cve_html.get('data-cvss'),
+            'infos' : self.__format_infos(cve.find('span', 'ui small text').text)
 
-            }
-            return cve_entity
-    
+        }
+        return cve_entity
+
     def __format_infos(self, infos):
         infos = infos.split('\n')
         formated_infos = {}
