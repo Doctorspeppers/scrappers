@@ -31,15 +31,16 @@ class Scrapper:
     def __cve_catcher(self, cve_html):
         fixed_cve = html_decode(str(cve_html.get('data-html')))
         cve = BeautifulSoup(fixed_cve, "html.parser")
-        cve_entity = {
-            'title': cve.find('h4').text,
-            'description': cve.find('div', 'sixteen wide summary computer only cve-description column').find('span').text,
-            'cvss_version': cve_html.get('data-cvss-version'),
-            'cvss_score': cve_html.get('data-cvss'),
-            'infos' : self.__format_infos(cve.find('span', 'ui small text').text)
-
-        }
-        return cve_entity
+        if(cve.find('div', 'sixteen wide summary computer only cve-description column')):
+            cve_entity = {
+                'title': cve.find('h4').text,
+                'description': cve.find('div', 'sixteen wide summary computer only cve-description column').find('span').text,
+                'cvss_version': cve_html.get('data-cvss-version'),
+                'cvss_score': cve_html.get('data-cvss'),
+                'infos' : self.__format_infos(cve.find('span', 'ui small text').text)
+            }
+            return cve_entity
+        return None
 
     def __format_infos(self, infos):
         infos = infos.split('\n')
@@ -47,7 +48,7 @@ class Scrapper:
         for info in infos:
             if(info != ''):
                 info = info.split(':')
-                formated_infos[info[0].replace('  ', '')] = info[1].replace('  ', '')
+                formated_infos[info[0].replace('  ', '')] = info[1].replace(' ', '')
         return formated_infos
         
     def paginate(self, page = None):
@@ -68,16 +69,17 @@ class Scrapper:
     def toPage(self, page):
         self.page = page
         self.content = BeautifulSoup(self.session.get(self.url+self.paginate(), headers=self.headers).content, "html.parser")
-    
+        return self
 
 
-    def getLastNews(self):
+    def getNews(self):
         content = self.content
         post_array = []
         for post in content.find_all('div', 'post'):
             post_content = {
                 'title': post.find('b', 'post').text,
                 'content': post.find('p').text,
+                'date': post.find('span', 'ui text grey').text,
                 'more': post.find('a').get('href')
             }
 
@@ -85,7 +87,8 @@ class Scrapper:
                 cves_array = []
                 for cve_html in post.find_all('span', 'cve-tooltip cursor-pointer'):
                     cve_entity = self.__cve_catcher(cve_html)
-                    cves_array.append(cve_entity)
+                    if cve_entity != None:
+                        cves_array.append(cve_entity)
                 post_content['cves'] = cves_array
             post_array.append(post_content)
         return post_array
@@ -94,18 +97,20 @@ class Scrapper:
     
     def getLastCves(self):
         content = self.content
-        cve_array = []
+        cves_array = []
         for cve_html in content.find_all('span', 'cve-tooltip cursor-pointer'):
             cve_entity = self.__cve_catcher(cve_html)
-            cve_array.append(cve_entity)
-        return cve_array
+            if cve_entity != None:
+                cves_array.append(cve_entity)
+        return cves_array
     
     def cves_highlighted(self):
         content = self.content
-        cve_array = []
+        cves_array = []
         for segment in content.find_all('div', 'ui inverted segment'):
             if(segment.find('h4', 'ui header')):
                 for cve_html in segment.find_all('span', 'cve-tooltip cursor-pointer'):
                     cve_entity = self.__cve_catcher(cve_html)
-                    cve_array.append(cve_entity)
-        return cve_array
+                    if cve_entity != None:
+                        cves_array.append(cve_entity)
+        return cves_array
