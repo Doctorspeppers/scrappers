@@ -29,17 +29,17 @@ class Scrapper:
         self.page = 1
         
         def __cve_catcher(self, cve_html):
-        fixed_cve = html_decode(str(cve_html.get('data-html')))
-        cve = BeautifulSoup(fixed_cve, "html.parser")
-        cve_entity = {
-            'title': cve.find('h4').text,
-            'description': cve.find('div', 'sixteen wide summary computer only cve-description column').find('span').text,
-            'cvss_version': cve_html.get('data-cvss-version'),
-            'cvss_score': cve_html.get('data-cvss'),
-            'infos' : self.__format_infos(cve.find('span', 'ui small text').text)
+            fixed_cve = html_decode(str(cve_html.get('data-html')))
+            cve = BeautifulSoup(fixed_cve, "html.parser")
+            cve_entity = {
+                'title': cve.find('h4').text,
+                'description': cve.find('div', 'sixteen wide summary computer only cve-description column').find('span').text,
+                'cvss_version': cve_html.get('data-cvss-version'),
+                'cvss_score': cve_html.get('data-cvss'),
+                'infos' : self.__format_infos(cve.find('span', 'ui small text').text)
 
-        }
-        return cve_entity
+            }
+            return cve_entity
     
     def __format_infos(self, infos):
         infos = infos.split('\n')
@@ -72,7 +72,7 @@ class Scrapper:
 
 
     def getLastNews(self):
-        content = self.getContent()
+        content = self.content
         post_array = []
         for post in content.find_all('div', 'post'):
             post_content = {
@@ -93,7 +93,7 @@ class Scrapper:
 
     
     def getLastCves(self):
-        content = self.getContent()
+        content = self.content
         cve_array = []
         for cve_html in content.find_all('span', 'cve-tooltip cursor-pointer'):
             cve_entity = self.__cve_catcher(cve_html)
@@ -101,7 +101,7 @@ class Scrapper:
         return cve_array
     
     def cves_highlighted(self):
-        content = self.getContent()
+        content = self.content
         cve_array = []
         for segment in content.find_all('div', 'ui inverted segment'):
             if(segment.find('h4', 'ui header')):
