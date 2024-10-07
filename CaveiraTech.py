@@ -86,7 +86,6 @@ class Scrapper:
         post_array = []
         cachedData = self.cache.getContent(self.page)
         if cachedData != None:
-            print(cachedData)
             return cachedData
         for post in content.find_all('div', 'post'):
             post_content = {
