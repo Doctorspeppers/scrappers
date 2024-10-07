@@ -21,6 +21,7 @@ def html_decode(s):
 
 class Scrapper:
     def __init__(self):
+        self.aggregator = "CaveiraTech"
         self.url = "https://caveiratech.com"
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.142.86 Safari/537.36"

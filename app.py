@@ -2,12 +2,7 @@ from flask import Flask
 import CaveiraTech
 
 app = Flask(__name__)
-alias = [
-    {
-        'aggregator': 'CaveiraTech',
-        'url': 'https://caveiratech.com'
-    }
-]
+
 
 scrappers = {
     'caveiratech': CaveiraTech.Scrapper()
@@ -30,7 +25,7 @@ Scrappers Response template:
 @app.route('/aggregators', methods=['GET'])
 def get_all_tech_news():
     return {
-        "aggregators": list(scrappers.keys()),
+        "aggregators": [ {'url':x.url,'aggregator':x.aggregator}  for x in scrappers.values()],
         "query_example": {
             "caveiratech": "/news/caveiratech",
             "caveiratech": "/news/caveiratech/<page>"
