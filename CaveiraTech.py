@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import json 
+from Cache import Cache
 def html_decode(s):
     """
     Returns the ASCII decoded version of the given HTML string. This does
@@ -27,6 +28,7 @@ class Scrapper:
         self.session = requests.Session()
         self.content = BeautifulSoup(self.session.get(self.url, headers=self.headers).content, "html.parser") 
         self.page = 1
+        self.cache = Cache('caveira_tech')
         
     def __cve_catcher(self, cve_html):
         fixed_cve = html_decode(str(cve_html.get('data-html')))
@@ -50,6 +52,13 @@ class Scrapper:
                 info = info.split(':')
                 formated_infos[info[0].replace('  ', '')] = info[1].replace(' ', '')
         return formated_infos
+    
+    def filter_text(self, text):
+        return text.replace('\n', ' ')
+    
+    def __content_catcher(self, url):
+        content = BeautifulSoup(self.session.get(self.url+url, headers=self.headers).content, "html.parser")
+        return self.filter_text(content.find('p','post_details').text)
         
     def paginate(self, page = None):
         if page == None:
@@ -75,10 +84,15 @@ class Scrapper:
     def getNews(self):
         content = self.content
         post_array = []
+        cachedData = self.cache.getContent(self.page)
+        if cachedData != None:
+            print(cachedData)
+            return cachedData
         for post in content.find_all('div', 'post'):
             post_content = {
                 'title': post.find('b', 'post').text,
-                'content': post.find('p').text,
+                'abstract': post.find('p').text,
+                'content' : self.__content_catcher(post.find('a').get('href')),
                 'date': post.find('span', 'ui text grey').text,
                 'more': post.find('a').get('href')
             }
@@ -91,6 +105,7 @@ class Scrapper:
                         cves_array.append(cve_entity)
                 post_content['cves'] = cves_array
             post_array.append(post_content)
+        self.cache.setContent(post_array, self.page)
         return post_array
     
 
