@@ -7,19 +7,34 @@ class HtmlCleaner:
         self.content = BeautifulSoup(html, "html.parser") 
         self.report = []
         
-    def html_filter(self):
-        for key, value in self.report.items():
-            if  isinstance(value, str):
-                self.report[key] = value.replace('\n', '').replace('\t', '').replace('\r', '').strip()
-            else:
-                for inner_key, inner_value in zip(range(len(value)),value):
-                    for inner_key_cvss, inner_value_cvss in inner_value.items():
-                        if  isinstance(inner_value_cvss, str):
-                            self.report[key][inner_key][inner_key_cvss] = inner_value_cvss.replace('\n', '').replace('\t', '').replace('\r', '').strip()
+    def text_filter(self, text):
+        return text.replace('\n', '').replace('\t', '').replace('\r', '').strip()
+        
+    def html_filter(self, report):
+        print(report, "\n\n\n\n")
+        if isinstance(report, list):
+            for inner_key, inner_value in zip(range(len(report)),report):
+                if  isinstance(inner_value, str):
+                    report[inner_key] = self.text_filter(inner_value)
+                else:
+                    for inner_key_var, inner_value_var in inner_value.items():
+                        if  isinstance(inner_value_var, str):
+                            report[inner_key][inner_key_var] = self.text_filter(inner_value_var)
                         else:
-                            for inner_key_cvss2, inner_value_cvss2 in zip(range(len(inner_value_cvss)),inner_value_cvss):
-                                if  isinstance(inner_value_cvss2, str):
-                                    self.report[key][inner_key][inner_key_cvss][inner_key_cvss2] = inner_value_cvss2.replace('\n', '').replace('\t', '').replace('\r', '').strip()
+                            report[inner_key][inner_key_var] = self.html_filter(inner_value_var)
+        elif isinstance(report, dict):
+            for key, value in report.items():
+                if  isinstance(value, str):
+                    report[key] = self.text_filter(value)
+                else:
+                    for inner_key, inner_value in zip(range(len(value)),value):
+                        for inner_key_var, inner_value_var in inner_value.items():
+                            if  isinstance(inner_value_var, str):
+                                report[key][inner_key][inner_key_var] = self.text_filter(inner_value_var)
+                            else:
+                                report[key][inner_key][inner_key_var] = self.html_filter(inner_value_var)
+        return report
+
     def defaultSearch(self):
 
         self.report = {
@@ -41,8 +56,9 @@ class HtmlCleaner:
                                     for i in range(0, len(self.content.find('tbody').find_all('tr')), 2)] 
                     ]
         }
-        self.html_filter()
-        print(self.report)
+
+        self.report = self.html_filter(self.report)
+
 
 class Scrapper:
     def __init__(self):
@@ -59,16 +75,19 @@ class Scrapper:
 
         cleaner = HtmlCleaner(html).defaultSearch()
         
-        # if 'EPSS' in options:
+        if 'EPSS' in options:
+            cleaner.search_epss()
         
-        # if 'product_affected' in options:
-        
-        # if 'references' in options:
-        
-        # if 'CWE' in options:
-        
-        # if 'exploits' in options:
-        
+        if 'product_affected' in options:
+            cleaner.search_product_affected()
+        if 'references' in options:
+            cleaner.search_references()
+        if 'CWE' in options:
+            cleaner.search_cwe()
+        if 'exploits' in options:
+            cleaner.search_exploits()
+
+        return cleaner.report
         
 scrp = Scrapper()
 scrp.search_cve('CVE-2024-24747')
