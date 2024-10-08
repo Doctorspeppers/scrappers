@@ -6,6 +6,7 @@ services:
       scrappernetwork:
         aliases:
           - redis
+
   web:
     build:
       context: .
@@ -16,7 +17,10 @@ services:
     volumes:
       - .:/code
     networks:
-      sitenetwork:
+      scrappernetwork:
+        aliases:
+          - scrapper
+      site_sitenetwork:
         aliases:
           - scrapper
     depends_on:
@@ -24,5 +28,5 @@ services:
 networks:
   scrappernetwork:
     driver: bridge
-  sitenetwork:
+  site_sitenetwork:
     external: true
