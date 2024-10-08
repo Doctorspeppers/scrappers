@@ -70,6 +70,15 @@ class HtmlCleaner:
         }
         
         self.report['epss']['history'] = self.clean_table(history_html_parsed.find('table')) 
+        
+        
+    def search_references(self):
+        references = self.content.find('div', 'cvedetailssummary-references')
+        self.report['references'] = 
+    def search_cwe(self):
+        self.report['cwe'] = self.clean_table(self.content.find('div', 'cvedetailssummary-cwes').find('table'))
+        
+
 
 class Scrapper:
     def __init__(self):
@@ -100,8 +109,7 @@ class Scrapper:
             cleaner.search_references()
         if 'CWE' in options:
             cleaner.search_cwe()
-        if 'exploits' in options:
-            cleaner.search_exploits()
+
 
         return cleaner.report
         
