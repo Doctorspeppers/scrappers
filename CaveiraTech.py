@@ -29,9 +29,9 @@ class Scrapper:
                 ['&', '&amp;'],
                 ['\\n', '<br>']
                 ['<a>', ''],
-                ['</a>', '']
+                ['</a>', ''],
                 ['<script>', ''],
-                ['</script>', '']
+                ['</script>', ''],
         ]
         for code in htmlCodes:
             s = s.replace(code[1], code[0])
