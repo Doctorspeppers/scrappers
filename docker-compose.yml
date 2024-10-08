@@ -24,3 +24,5 @@ services:
 networks:
   scrappernetwork:
     driver: bridge
+  sitenetwork:
+    external: true
