@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 
 scrappers = {
-    'caveiratech': CaveiraTech.Scrapper()
+    'CaveiraTech': CaveiraTech.Scrapper()
 }
 
 """

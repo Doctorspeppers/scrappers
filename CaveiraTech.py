@@ -1,22 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-import json 
 from Cache import Cache
-def html_decode(s):
-    """
-    Returns the ASCII decoded version of the given HTML string. This does
-    NOT remove normal HTML tags like <p>.
-    """
-    htmlCodes = [
-            ["'", '&#39;'],
-            ['"', '&quot;'],
-            ['>', '&gt;'],
-            ['<', '&lt;'],
-            ['&', '&amp;']
-    ]
-    for code in htmlCodes:
-        s = s.replace(code[1], code[0])
-    return s
+
 
 
 class Scrapper:
@@ -31,13 +16,30 @@ class Scrapper:
         self.page = 1
         self.cache = Cache('caveira_tech')
         
+    def html_decode(s):
+        """
+        Returns the ASCII decoded version of the given HTML string. This does
+        NOT remove normal HTML tags like <p>.
+        """
+        htmlCodes = [
+                ["'", '&#39;'],
+                ['"', '&quot;'],
+                ['>', '&gt;'],
+                ['<', '&lt;'],
+                ['&', '&amp;'],
+                ['\\n', '<br>']
+        ]
+        for code in htmlCodes:
+            s = s.replace(code[1], code[0])
+        return s
+    
     def __cve_catcher(self, cve_html):
-        fixed_cve = html_decode(str(cve_html.get('data-html')))
+        fixed_cve = self.html_decode(str(cve_html.get('data-html')))
         cve = BeautifulSoup(fixed_cve, "html.parser")
         if(cve.find('div', 'sixteen wide summary computer only cve-description column')):
             cve_entity = {
-                'title': cve.find('h4').text,
-                'description': cve.find('div', 'sixteen wide summary computer only cve-description column').find('span').text,
+                'title': cve.find('h4').text.replace(' ', ''),
+                'description': cve.find('div', 'sixteen wide summary computer only cve-description column').find('span').text.replace(' ', ''),
                 'cvss_version': cve_html.get('data-cvss-version'),
                 'cvss_score': cve_html.get('data-cvss'),
                 'infos' : self.__format_infos(cve.find('span', 'ui small text').text)
@@ -51,15 +53,22 @@ class Scrapper:
         for info in infos:
             if(info != ''):
                 info = info.split(':')
-                formated_infos[info[0].replace('  ', '')] = info[1].replace(' ', '')
+                formated_infos[info[0].replace('  ', '')] = info[1].replace(' ', '').replace(' ', '')
         return formated_infos
     
     def filter_text(self, text):
-        return text.replace('\n', ' ')
+
+        for tag in text.findAll(True):
+            if tag.name not in ['br']:
+                s = tag.text
+
+                tag.replaceWith(s)
+
+        return text
     
     def __content_catcher(self, url):
         content = BeautifulSoup(self.session.get(self.url+url, headers=self.headers).content, "html.parser")
-        return self.filter_text(content.find('p','post_details').text)
+        return self.filter_text(content.find('p','post_details')).prettify()
         
     def paginate(self, page = None):
         if page == None:
@@ -94,7 +103,7 @@ class Scrapper:
                 'abstract': post.find('p').text,
                 'content' : self.__content_catcher(post.find('a').get('href')),
                 'date': post.find('span', 'ui text grey').text,
-                'more': post.find('a').get('href')
+                'more': self.url + post.find('a').get('href')
             }
 
             if(post.find('span', 'cve-tooltip cursor-pointer')):
