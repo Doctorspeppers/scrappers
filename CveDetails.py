@@ -7,32 +7,33 @@ class HtmlCleaner:
         self.content = BeautifulSoup(html, "html.parser") 
         self.report = []
         
+    def clean_table(self, table):
+        table_data = []
+        header = table.find_all('th')
+        for i in range(len(header)):
+            header[i] = self.text_filter(header[i].text)
+        
+        rows = table.find_all('tr')
+        for i,row in zip(range(len(rows)),rows):
+            cells = row.find_all('td')
+            table_data.insert(i,{})
+            for key, value in zip(header, cells):
+                table_data[i][key] = self.text_filter(value.text)
+                
+        return table_data
+        
     def text_filter(self, text):
         return text.replace('\n', '').replace('\t', '').replace('\r', '').strip()
         
     def html_filter(self, report):
-        print(report, "\n\n\n\n")
-        if isinstance(report, list):
-            for inner_key, inner_value in zip(range(len(report)),report):
-                if  isinstance(inner_value, str):
-                    report[inner_key] = self.text_filter(inner_value)
-                else:
-                    for inner_key_var, inner_value_var in inner_value.items():
-                        if  isinstance(inner_value_var, str):
-                            report[inner_key][inner_key_var] = self.text_filter(inner_value_var)
-                        else:
-                            report[inner_key][inner_key_var] = self.html_filter(inner_value_var)
-        elif isinstance(report, dict):
+        if isinstance(report, dict):
             for key, value in report.items():
-                if  isinstance(value, str):
+                if isinstance(value, str):
                     report[key] = self.text_filter(value)
                 else:
-                    for inner_key, inner_value in zip(range(len(value)),value):
-                        for inner_key_var, inner_value_var in inner_value.items():
-                            if  isinstance(inner_value_var, str):
-                                report[key][inner_key][inner_key_var] = self.text_filter(inner_value_var)
-                            else:
-                                report[key][inner_key][inner_key_var] = self.html_filter(inner_value_var)
+                    report[key] = self.html_filter(value)
+        elif isinstance(report, list):
+            report[:] = [self.html_filter(item) for item in report]
         return report
 
     def defaultSearch(self):
@@ -58,7 +59,17 @@ class HtmlCleaner:
         }
 
         self.report = self.html_filter(self.report)
-
+        
+        
+    def search_epss(self, history_html):
+        history_html_parsed = BeautifulSoup(history_html, "html.parser")
+        
+        self.report['epss'] = {
+            'probability': self.content.find('span', 'epssbox score_6 text-dark').text,
+            'proportion': self.content.find('span', 'epssbox text-bg-secondary').text
+        }
+        
+        self.report['epss']['history'] = self.clean_table(history_html_parsed.find('table')) 
 
 class Scrapper:
     def __init__(self):
@@ -71,13 +82,18 @@ class Scrapper:
         
 
     def search_cve(self, cve, options = ['EPSS', 'product_affected', 'references', 'CWE', 'exploits']):
-        html = self.session.get(self.url+"/cve/"+cve+"/", headers=self.headers).content
+        search_url = self.url+"/cve/"+cve+"/"
+        html = self.session.get(search_url, headers=self.headers).content
 
-        cleaner = HtmlCleaner(html).defaultSearch()
+        cleaner = HtmlCleaner(html)
+        cleaner.defaultSearch()
         
         if 'EPSS' in options:
-            cleaner.search_epss()
-        
+            print(search_url+"epss-score-history.html")
+            epss_history_html = self.session.get(self.url+"/epss/"+cve+"/epss-score-history.html", headers=self.headers).content
+
+            cleaner.search_epss(epss_history_html)
+        print(cleaner.report)
         if 'product_affected' in options:
             cleaner.search_product_affected()
         if 'references' in options:
