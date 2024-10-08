@@ -16,7 +16,7 @@ class Scrapper:
         self.page = 1
         self.cache = Cache('caveira_tech')
         
-    def html_decode(s):
+    def html_decode(self, s):
         """
         Returns the ASCII decoded version of the given HTML string. This does
         NOT remove normal HTML tags like <p>.
@@ -28,6 +28,10 @@ class Scrapper:
                 ['<', '&lt;'],
                 ['&', '&amp;'],
                 ['\\n', '<br>']
+                ['<a>', ''],
+                ['</a>', '']
+                ['<script>', ''],
+                ['</script>', '']
         ]
         for code in htmlCodes:
             s = s.replace(code[1], code[0])
