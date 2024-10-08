@@ -1,0 +1,26 @@
+services:
+  redis:
+    image: redislabs/redismod
+    hostname: redis
+    networks:
+      scrappernetwork:
+        aliases:
+          - redis
+  web:
+    build:
+      context: .
+      target: builder
+    # flask requires SIGINT to stop gracefully
+    # (default stop signal from Compose is SIGTERM)
+    stop_signal: SIGINT
+    volumes:
+      - .:/code
+    networks:
+      sitenetwork:
+        aliases:
+          - scrapper
+    depends_on:
+      - redis
+networks:
+  scrappernetwork:
+    driver: bridge

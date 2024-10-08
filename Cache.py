@@ -5,7 +5,7 @@ from datetime import datetime
 class Cache:
     
     def __init__(self, scrapper, size = 10):
-        self.redis = redis.Redis(host='localhost', port=6379, decode_responses=True)
+        self.redis = redis.Redis(host='redis', port=6379, decode_responses=True)
         self.scrapper = scrapper
         self.size = size
         if self.redis.get('pageCounter:' + self.scrapper) != None:
